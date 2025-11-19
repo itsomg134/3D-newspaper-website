@@ -1,96 +1,73 @@
+# React + TypeScript + Vite
 
-# 3D Newspaper Website 📰✨
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-A modern, immersive news platform built with React that transforms traditional journalism into an interactive 3D experience.
+Currently, two official plugins are available:
 
-## 🌟 Features
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- **3D Card Animations** - Interactive news cards with tilt and lift effects on hover
-- **Parallax Scrolling** - Smooth depth perception with dynamic background movement
-- **Glassmorphism UI** - Modern frosted glass effects with backdrop blur
-- **Floating Animations** - Eye-catching hero section with continuous motion
-- **Responsive Design** - Fully optimized for desktop, tablet, and mobile devices
-- **Dark Mode Theme** - Sleek slate gradient background with blue/purple accents
-- **Smooth Transitions** - Polished animations throughout the entire experience
-- **Mobile Navigation** - Clean hamburger menu with full-screen overlay
+## React Compiler
 
-## 🎨 Design Highlights
+The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
 
-- Contemporary glassmorphic design language
-- Gradient backgrounds and glowing text effects
-- Professional typography with excellent readability
-- Image hover zoom effects
-- Category badges and date stamps
-- Newsletter subscription section
-- Fully accessible navigation
+## Expanding the ESLint configuration
 
-## 🛠️ Tech Stack
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-- **React** - Component-based UI framework
-- **Tailwind CSS** - Utility-first styling with custom animations
-- **Lucide React** - Beautiful, consistent icons
-- **CSS3 Animations** - Custom keyframe animations for 3D effects
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## 📦 Components
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-- Dynamic news grid with 6 featured articles
-- Fixed header with smooth scroll detection
-- Hero section with parallax effect
-- Newsletter subscription card
-- Responsive footer with links
-
-## 🚀 Getting Started
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/3d-newspaper-website.git
-
-# Navigate to project directory
-cd 3d-newspaper-website
-
-# Install dependencies
-npm install
-
-# Start development server
-npm start
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## 💡 Usage
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-The website showcases a modern approach to digital journalism with:
-- Real-time news article display
-- Interactive category filtering
-- Smooth scrolling experience
-- Engaging visual hierarchy
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-Perfect for news publishers, media outlets, or anyone looking to create an engaging content platform.
-
-## 🎯 Key Animations
-
-- `float` - Continuous vertical motion with subtle rotation
-- `slideIn` - Horizontal entrance animation
-- `fadeInUp` - Vertical fade entrance
-- `card-3d` - Transform-based 3D hover effects
-
-## 📱 Responsive Breakpoints
-
-- Mobile: < 768px
-- Tablet: 768px - 1024px
-- Desktop: > 1024px
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-## 📄 License
-
-MIT License - feel free to use this project for personal or commercial purposes.
-
-## 👨‍💻 Author
-
-- GitHub: [@itsomg134](https://github.com/itsomg134)
-- Twitter: [@omgedam](https://x.com/its_om_g_143?t=8I7F1GBJO6jLU1AaoQLgYQ&s=09)
-- Email: omgedam123098@gmail.com
-- Portfolio: [ogworks.lovable.app](https://ogworks.lovable.app)  
-- LinkedIn: [Om Gedam](https://www.linkedin.com/in/om-gedam-39686432a)
-**Note:** This is a demo project. Replace placeholder content with real news API integration for production use.
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
